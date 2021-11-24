@@ -1,7 +1,7 @@
 import connectDB from "../../../utils/connectDB";
 import Users from '../../../models/userSchema'
-import valid from '../../../utils/valid'
 import bcrypt from 'bcrypt'
+import {createAccessToken,createRefreshToken} from '../../../utils/generateToken'
 
 connectDB()
 
@@ -24,8 +24,21 @@ const login = async (req, res) =>{
         const isMatch = await bcrypt.compare(password, user.password)
         if(!isMatch) return res.status(400).json({err:"Incorrect password"})
 
-        await newUser.save()
-        res.json({msg:"Register Success!"})
+        const access_token = createAccessToken({id: user._id})
+        const refresh_token = createRefreshToken({id: user._id})
+
+        res.json({
+            msg:"Login Success!",
+            refresh_token,
+            access_token,
+            user:{
+                name: user.name,
+                email: user.email,
+                role:user.role,
+                avatar: user.avatar,
+                root:user.root
+            }
+        })
     } catch (err) {
         return res.status(500).json({err: err.message})
     }

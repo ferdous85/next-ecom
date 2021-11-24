@@ -1,9 +1,9 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import { useState, useContext } from 'react'
-import valid from '../utils/valid'
 import { DataContext } from '../store/GlobalState'
 import {postData} from '../utils/featchData'
+import Cookies from 'js-cookie'
 
 const Signin = () => {
 
@@ -28,11 +28,23 @@ const Signin = () => {
        
         dispatch({type: "NOTIFY",payload: {loading: true }})
 
-        const res = await postData('auth/register', userData)
+        const res = await postData('auth/login', userData)
 
         if(res.err) return dispatch({type: "NOTIFY",payload: {error: res.err}})
 
-        return dispatch({type: "NOTIFY",payload: {success: res.msg}})
+        dispatch({ type: 'NOTIFY', payload: {success: res.msg} })
+
+         dispatch({type: "AUTH",payload: {
+             token: res.access_token,
+             user: res.user
+         }})
+
+        Cookies.set('refreshtoken', res.refresh_token,{
+            path: 'api/auth/accessToken',
+            expires: 7
+        } )
+
+        localStorage.setItem('firstLogin', true)
     }
 
     return (
