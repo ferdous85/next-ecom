@@ -12,14 +12,14 @@ const Register = () => {
 
     const {name, email, password, cf_password}  = userData
 
-    const [state, dispatch] = useContext(DataContext)
+    const {state, dispatch}= useContext(DataContext)
 
     const handleChangeInput = e =>{
         const{name, value} = e.target
 
         setUserData({...userData, [name]:value})
 
-        // dispatch({type: "NOTIFY",payload: {success: "Ok"}})
+         dispatch({type: "NOTIFY",payload: {}})
     }
 
     const handleSubmit = async (e)=>{
@@ -36,7 +36,7 @@ const Register = () => {
         return dispatch({type: "NOTIFY",payload: {success: res.msg}})
     }
 
-    
+
     return (
         <div>
             <Head>

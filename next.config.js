@@ -2,6 +2,8 @@ module.exports = {
   reactStrictMode: true,
   env:{
     "BASE_URL":"http://localhost:3000",
-    "MONGODB_URL":"mongodb://localhost:27017/next-ecom"
+    "MONGODB_URL":"mongodb://localhost:27017/next-ecom",
+    "ACCESS_TOKEN_SECRET":"4AD654A56S4D56A4D54A6D465A4D6AD655A4SD",
+    "REFRESH_TOKEN_SECRET":"DASD445F5A4F5ASF578FA23A4F6A7F6A1FAF78A1F6AF7AFA9F76A1"
   }
 }
